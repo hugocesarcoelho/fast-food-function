@@ -24,22 +24,6 @@ provider "aws" {
   region = "us-east-1"
 }
 
-# # Role para a Lambda
-# resource "aws_iam_role" "lambda_role" {
-#   name = "lambda_execution_role"
-
-#   assume_role_policy = jsonencode({
-#     Version = "2012-10-17"
-#     Statement = [{
-#       Action = "sts:AssumeRole"
-#       Effect = "Allow"
-#       Principal = {
-#         Service = "lambda.amazonaws.com"
-#       }
-#     }]
-#   })
-# }
-
 # Política de permissões para logs e acesso à VPC
 resource "aws_iam_policy_attachment" "lambda_logs" {
   name       = "lambda_logs"
@@ -47,13 +31,13 @@ resource "aws_iam_policy_attachment" "lambda_logs" {
   policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
 }
 
-# Empacotamento do código da Lambda (assumindo que está em "lambda_code/index.js")
+# Empacotamento do código da Lambda
 data "archive_file" "lambda_zip" {
   type        = "zip"
   output_path = "lambda.zip"
 
   source {
-    content  = file("../src/index.mjs") # Caminho do código da Lambda
+    content  = file("../src/index.mjs")
     filename = "index.mjs"
   }
 }
@@ -69,12 +53,12 @@ resource "aws_lambda_function" "http_lambda" {
 
   environment {
     variables = {
-      DB_HOST   = "seu-host-mysql"
-      DB_USER   = "seu-usuario"
+      DB_HOST     = "seu-host-mysql"
+      DB_USER     = "seu-usuario"
       DB_PASSWORD = "sua-senha"
-      DB_NAME   = "seu-banco"
-      DB_PORT   = "3306"
-      X_API_KEY = "sua-chave-api"
+      DB_NAME     = "seu-banco"
+      DB_PORT     = "3306"
+      X_API_KEY   = "sua-chave-api"
     }
   }
 }

@@ -35,5 +35,5 @@ jobs:
       - name: Deploy to AWS Lambda
         run: |
           aws lambda update-function-code \
-            --function-name http_lambda \
+            --function-name cpf_auth_lambda \
             --zip-file fileb://function.zip

@@ -35,5 +35,5 @@ jobs:
       - name: Deploy to AWS Lambda
         run: |
           aws lambda update-function-code \
-            --function-name your-function-name \
+            --function-name http_function \
             --zip-file fileb://function.zip
